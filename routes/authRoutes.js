@@ -2,21 +2,20 @@ const express = require('express');
 const router = express.Router();
 
 
-// Example route for user authentication
+
 router.post('/register', (req, res) => {
-    // Your registration logic here
     res.send('User registered');
 });
 
 router.post('/login', (req, res) => {
-    // Your login logic here
+
     res.send('User logged in');
 });
 
-module.exports = router;  // Ensure you are exporting the router
+module.exports = router;  
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const pool = require('../config/db');  // Assuming you have set up a PostgreSQL pool connection
+const pool = require('../config/db');  
 const jwt = require('jsonwebtoken');
 
 
@@ -41,17 +40,17 @@ router.post('/register', [
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        // Hash the password
+    
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Insert the new user into the database
+        // Inserting the new user into the database
         const newUser = await pool.query(
             'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
             [name, email, hashedPassword]
         );
 
-        // Create and return a JWT token
+        // Creating and returning a JWT token
         const payload = {
             user: {
                 id: newUser.rows[0].id
