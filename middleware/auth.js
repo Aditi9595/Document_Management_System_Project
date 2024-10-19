@@ -8,7 +8,7 @@ function authenticateToken(req, res, next) {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
-        req.user = user; // Attach user info from token to the request object
+        req.user = user; 
         next();
     });
 }
