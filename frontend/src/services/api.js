@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:5000/api' });
 
-// Add authentication token to each request if available
+
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
   if (token) {
